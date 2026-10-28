@@ -10,13 +10,21 @@ function roundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: numbe
   ctx.closePath();
 }
 
-export function drawSky(ctx: CanvasRenderingContext2D, score: number): void {
-  const hue = (210 + score * 1.1) % 360;
-  const grad = ctx.createLinearGradient(0, 0, 0, BOARD_H);
-  grad.addColorStop(0, `hsl(${hue}, 70%, 14%)`);
-  grad.addColorStop(1, `hsl(${(hue + 30) % 360}, 60%, 6%)`);
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, BOARD_W, BOARD_H);
+const bgImg = new Image();
+let bgReady = false;
+bgImg.onload = () => { bgReady = true; };
+bgImg.src = 'assets/bg.jpg';
+
+export function drawSky(ctx: CanvasRenderingContext2D): void {
+  if (bgReady) {
+    ctx.drawImage(bgImg, 0, 0, BOARD_W, BOARD_H);
+  } else {
+    const grad = ctx.createLinearGradient(0, 0, 0, BOARD_H);
+    grad.addColorStop(0, 'hsl(210, 70%, 14%)');
+    grad.addColorStop(1, 'hsl(240, 60%, 6%)');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, BOARD_W, BOARD_H);
+  }
 }
 
 const STARS = Array.from({ length: 28 }, (_, i) => ({
@@ -174,7 +182,7 @@ export function drawAvatarBadge(ctx: CanvasRenderingContext2D, avatar: HTMLImage
 }
 
 export function drawTitle(ctx: CanvasRenderingContext2D, pulseT: number): void {
-  drawSky(ctx, 0);
+  drawSky(ctx);
   drawParallax(ctx, pulseT * 40);
   const cx = BOARD_W / 2;
 

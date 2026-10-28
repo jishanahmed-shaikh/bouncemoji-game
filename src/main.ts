@@ -90,7 +90,7 @@ function frame(now: number): void {
     drawTitle(ctx, t);
     drawAvatarBadge(ctx, profile.avatar);
   } else {
-    drawSky(ctx, state.score);
+    drawSky(ctx);
     drawParallax(ctx, state.scrollY);
     drawPlatforms(ctx, state.platforms);
     drawPlayer(ctx, state);
