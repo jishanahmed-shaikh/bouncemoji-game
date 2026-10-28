@@ -13,8 +13,9 @@ import {
 import { landsOn, wrapX } from './physics';
 
 export interface LoopHooks {
-  onBounce(): void;
+  onBounce(score: number): void;
   onBreak(): void;
+  onMilestone(): void;
   onGameOver(score: number): void;
 }
 
@@ -35,6 +36,7 @@ export function step(state: GameState, input: Input, dt: number, hooks: LoopHook
     return;
   }
 
+  const scoreBefore = state.score;
   const player = state.player;
   if (input.touching) player.targetX = input.x;
   const follow = 1 - Math.exp(-FOLLOW_RATE * dt);
@@ -51,7 +53,7 @@ export function step(state: GameState, input: Input, dt: number, hooks: LoopHook
       player.y = platform.y - PLAYER_R;
       player.vy = BOUNCE_VY;
       player.squash = 1;
-      hooks.onBounce();
+      hooks.onBounce(state.score);
       if (platform.kind === 'break') {
         platform.broken = true;
         hooks.onBreak();
@@ -66,6 +68,7 @@ export function step(state: GameState, input: Input, dt: number, hooks: LoopHook
     for (const platform of state.platforms) platform.y += shift;
     state.scrollY += shift;
     state.score = Math.floor(state.scrollY / SCROLL_PER_POINT);
+    if (Math.floor(state.score / 10) > Math.floor(scoreBefore / 10)) hooks.onMilestone();
   }
 
   let topY = Math.min(...state.platforms.map((p) => p.y));

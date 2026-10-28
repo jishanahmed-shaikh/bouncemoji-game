@@ -32,8 +32,9 @@ export class Sound {
     osc.stop(t0 + duration + 0.02);
   }
 
-  bounce(): void {
-    this.tone(220, 0.09, { type: 'triangle', gain: 0.12, glideTo: 440 });
+  bounce(score = 0): void {
+    const base = 220 + Math.min(score, 50) * 3;
+    this.tone(base, 0.09, { type: 'triangle', gain: 0.12, glideTo: base * 2 });
   }
 
   crack(): void {
@@ -42,6 +43,17 @@ export class Sound {
 
   crash(): void {
     this.tone(180, 0.4, { type: 'sawtooth', gain: 0.12, glideTo: 30 });
+  }
+
+  milestone(): void {
+    this.tone(660, 0.1, { type: 'sine', gain: 0.1 });
+    this.tone(880, 0.12, { type: 'sine', gain: 0.09, delay: 0.08 });
+  }
+
+  newBest(): void {
+    [523.25, 659.25, 783.99, 1046.5].forEach((freq, i) =>
+      this.tone(freq, 0.14, { type: 'triangle', gain: 0.1, delay: i * 0.09 }),
+    );
   }
 
   startPad(): void {

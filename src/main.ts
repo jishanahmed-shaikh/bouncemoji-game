@@ -44,11 +44,13 @@ void profile.load();
 
 let soundUnlocked = false;
 const hooks: LoopHooks = {
-  onBounce: () => sound.bounce(),
+  onBounce: (score) => sound.bounce(score),
   onBreak: () => sound.crack(),
+  onMilestone: () => sound.milestone(),
   onGameOver: (score) => {
-    sound.crash();
-    profile.reportScore(score);
+    const isBest = profile.reportScore(score);
+    if (isBest) sound.newBest();
+    else sound.crash();
   },
 };
 

@@ -25,6 +25,11 @@ export function drawSky(ctx: CanvasRenderingContext2D): void {
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, BOARD_W, BOARD_H);
   }
+  const vignette = ctx.createRadialGradient(BOARD_W / 2, BOARD_H * 0.4, BOARD_H * 0.25, BOARD_W / 2, BOARD_H * 0.4, BOARD_H * 0.75);
+  vignette.addColorStop(0, 'rgba(0,0,0,0)');
+  vignette.addColorStop(1, 'rgba(0,0,10,0.45)');
+  ctx.fillStyle = vignette;
+  ctx.fillRect(0, 0, BOARD_W, BOARD_H);
 }
 
 const STARS = Array.from({ length: 28 }, (_, i) => ({
@@ -49,8 +54,8 @@ export function drawParallax(ctx: CanvasRenderingContext2D, scrollY: number): vo
 function drawCloud(ctx: CanvasRenderingContext2D, p: Platform): void {
   const isBreak = p.kind === 'break';
   const h = 24;
-  const base = isBreak ? '#9aa3ba' : '#fffaf0';
-  const glow = isBreak ? 'rgba(154,163,186,0.4)' : 'rgba(255,250,240,0.5)';
+  const base = isBreak ? '#6b7390' : '#dce6ff';
+  const glow = isBreak ? 'rgba(107,115,144,0.45)' : 'rgba(185,205,255,0.5)';
 
   ctx.save();
   ctx.shadowColor = glow;
@@ -71,7 +76,7 @@ function drawCloud(ctx: CanvasRenderingContext2D, p: Platform): void {
   }
   ctx.shadowBlur = 0;
 
-  ctx.fillStyle = isBreak ? 'rgba(70,75,95,0.35)' : 'rgba(255,214,150,0.35)';
+  ctx.fillStyle = isBreak ? 'rgba(40,42,60,0.4)' : 'rgba(150,180,255,0.3)';
   roundRect(ctx, p.x + 3, p.y + h * 0.55, p.w - 6, h * 0.35, h * 0.18);
   ctx.fill();
 
