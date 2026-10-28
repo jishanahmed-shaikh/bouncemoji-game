@@ -1,0 +1,6 @@
+node_modules/
+dist/
+dist-lens/
+*.log
+.DS_Store
+bouncemoji-lens-v*.zip

@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <title>BOUNCEMOJI</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232b1a52'/%3E%3Crect x='14' y='42' width='36' height='8' rx='4' fill='%23ffb86b'/%3E%3Ccircle cx='32' cy='26' r='14' fill='%23ffd166'/%3E%3Ccircle cx='27' cy='23' r='2.4' fill='%232b1a52'/%3E%3Ccircle cx='37' cy='23' r='2.4' fill='%232b1a52'/%3E%3Cpath d='M26 31 Q32 36 38 31' stroke='%232b1a52' stroke-width='2.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+    <style>
+      :root { color-scheme: dark; }
+      * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+      html, body { width: 100%; height: 100%; overflow: hidden; background: #2b1a52; touch-action: none; }
+      #stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; background: #2b1a52; }
+      #game-canvas { width: 100%; height: 100%; max-width: 100vh; image-rendering: optimizeSpeed; touch-action: none; }
+    </style>
+  </head>
+  <body>
+    <div id="stage"><canvas id="game-canvas"></canvas></div>
+    <script src="main.js"></script>
+  </body>
+</html>
