@@ -4,6 +4,8 @@
 
 A tiny bitmoji-faced endless climber, built as a Snapchat Web Lens.
 
+**Play it live on Snapchat:** https://www.snapchat.com/lens/93ccb4a5aa8d4004ad762c7827468e55
+
 ## Play
 
 Drag to steer left and right — your bouncer auto-bounces off every platform below it and
