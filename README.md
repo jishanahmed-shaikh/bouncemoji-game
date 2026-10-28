@@ -1,6 +1,6 @@
 # BOUNCEMOJI
 
-![BOUNCEMOJI icon](assets/icon.png)
+<img src="assets/icon.png" alt="BOUNCEMOJI icon" width="96" />
 
 A tiny bitmoji-faced endless climber, built as a Snapchat Web Lens.
 
