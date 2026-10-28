@@ -46,53 +46,56 @@ export function drawParallax(ctx: CanvasRenderingContext2D, scrollY: number): vo
   ctx.globalAlpha = 1;
 }
 
-function platformFace(ctx: CanvasRenderingContext2D, cx: number, cy: number, w: number, happy: boolean): void {
-  const r = Math.max(2.2, w * 0.045);
-  ctx.fillStyle = 'rgba(10,10,20,0.75)';
-  ctx.beginPath();
-  ctx.arc(cx - w * 0.15, cy, r, 0, Math.PI * 2);
-  ctx.arc(cx + w * 0.15, cy, r, 0, Math.PI * 2);
+function drawCloud(ctx: CanvasRenderingContext2D, p: Platform): void {
+  const isBreak = p.kind === 'break';
+  const h = 24;
+  const base = isBreak ? '#9aa3ba' : '#fffaf0';
+  const glow = isBreak ? 'rgba(154,163,186,0.4)' : 'rgba(255,250,240,0.5)';
+
+  ctx.save();
+  ctx.shadowColor = glow;
+  ctx.shadowBlur = 12;
+  ctx.fillStyle = base;
+
+  roundRect(ctx, p.x, p.y, p.w, h, h / 2);
   ctx.fill();
-  ctx.strokeStyle = 'rgba(10,10,20,0.75)';
-  ctx.lineWidth = r * 0.8;
-  ctx.lineCap = 'round';
-  ctx.beginPath();
-  if (happy) {
-    ctx.arc(cx, cy + r * 0.4, w * 0.1, 0.15 * Math.PI, 0.85 * Math.PI);
-  } else {
-    ctx.moveTo(cx - w * 0.08, cy + r * 1.6);
-    ctx.lineTo(cx + w * 0.08, cy + r * 1.6);
+
+  const puffR = h * 0.58;
+  const count = Math.max(2, Math.round(p.w / 48));
+  for (let i = 0; i < count; i++) {
+    const t = count === 1 ? 0.5 : i / (count - 1);
+    const px = p.x + puffR + t * (p.w - puffR * 2);
+    ctx.beginPath();
+    ctx.arc(px, p.y + h * 0.18, puffR, 0, Math.PI * 2);
+    ctx.fill();
   }
-  ctx.stroke();
+  ctx.shadowBlur = 0;
+
+  ctx.fillStyle = isBreak ? 'rgba(70,75,95,0.35)' : 'rgba(255,214,150,0.35)';
+  roundRect(ctx, p.x + 3, p.y + h * 0.55, p.w - 6, h * 0.35, h * 0.18);
+  ctx.fill();
+
+  if (isBreak) {
+    ctx.fillStyle = '#4a5068';
+    const cx = p.x + p.w / 2;
+    ctx.beginPath();
+    ctx.moveTo(cx + 2, p.y - 2);
+    ctx.lineTo(cx - 6, p.y + h * 0.55);
+    ctx.lineTo(cx - 1, p.y + h * 0.55);
+    ctx.lineTo(cx - 5, p.y + h + 4);
+    ctx.lineTo(cx + 7, p.y + h * 0.35);
+    ctx.lineTo(cx + 2, p.y + h * 0.35);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  ctx.restore();
 }
 
 export function drawPlatforms(ctx: CanvasRenderingContext2D, platforms: Platform[]): void {
   for (const p of platforms) {
     if (p.broken) continue;
-    const h = 26;
-    const cy = p.y + h / 2;
-    if (p.kind === 'break') {
-      ctx.fillStyle = '#ff8a4c';
-      ctx.shadowColor = 'rgba(255,138,76,0.5)';
-    } else {
-      ctx.fillStyle = '#4de3c1';
-      ctx.shadowColor = 'rgba(77,227,193,0.45)';
-    }
-    ctx.shadowBlur = 10;
-    roundRect(ctx, p.x, p.y, p.w, h, h / 2);
-    ctx.fill();
-    ctx.shadowBlur = 0;
-    if (p.kind === 'break') {
-      ctx.strokeStyle = 'rgba(40,10,0,0.5)';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(p.x + p.w * 0.35, p.y + 4);
-      ctx.lineTo(p.x + p.w * 0.45, p.y + h - 4);
-      ctx.moveTo(p.x + p.w * 0.6, p.y + 2);
-      ctx.lineTo(p.x + p.w * 0.52, p.y + h - 2);
-      ctx.stroke();
-    }
-    platformFace(ctx, p.x + p.w / 2, cy, p.w, p.kind === 'normal');
+    drawCloud(ctx, p);
   }
 }
 
